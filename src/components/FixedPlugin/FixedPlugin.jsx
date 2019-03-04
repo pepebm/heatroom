@@ -13,7 +13,7 @@ class FixedPlugin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      classes: "dropdown show",
+      classes: "dropdown",
       bg_checked: true,
       bgImage: this.props.bgImage
     };
@@ -140,31 +140,6 @@ class FixedPlugin extends Component {
               >
                 <img src={imagine4} alt="..." />
               </a>
-            </li>
-
-            <li className="button-container">
-              <div className="button-container">
-                <Button
-                  color="success"
-                  href="https://www.creative-tim.com/product/material-dashboard-react"
-                  target="_blank"
-                  fullWidth
-                >
-                  Download free!
-                </Button>
-              </div>
-            </li>
-            <li className="button-container">
-              <div className="button-container">
-                <Button
-                  color="warning"
-                  href="https://www.creative-tim.com/product/material-dashboard-pro-react"
-                  target="_blank"
-                  fullWidth
-                >
-                  Get PRO version
-                </Button>
-              </div>
             </li>
             <li className="button-container">
               <Button

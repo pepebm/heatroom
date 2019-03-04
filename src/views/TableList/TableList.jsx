@@ -46,28 +46,29 @@ function TableList(props) {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
+            <h4 className={classes.cardTitleWhite}>Product Ranking</h4>
             <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
+              In this table you'll be able to see how the users are interacting
+              with your products.
             </p>
           </CardHeader>
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
+              tableHead={["ID", "Product", "Inventory", "Cost", "Client Attention"]}
               tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
+                ["1", "Water", "40", "$3,73", "14%"],
+                ["2", "Wine", "2", "$23,78", "14%"],
+                ["3", "Chips", "15", "$5,12", "14%"],
+                ["4", "Toilet paper", "20", "$8,75", "14%"],
+                ["5", "Apple", "50", "$1,54", "14%"],
+                ["6", "Pepper", "25", "$7,15", "14%"]
               ]}
             />
           </CardBody>
         </Card>
       </GridItem>
-      <GridItem xs={12} sm={12} md={12}>
+      {/*<GridItem xs={12} sm={12} md={12}>
         <Card plain>
           <CardHeader plain color="primary">
             <h4 className={classes.cardTitleWhite}>
@@ -104,7 +105,7 @@ function TableList(props) {
             />
           </CardBody>
         </Card>
-      </GridItem>
+      </GridItem>*/}
     </GridContainer>
   );
 }

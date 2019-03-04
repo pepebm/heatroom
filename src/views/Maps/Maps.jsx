@@ -5,6 +5,8 @@ import {
   GoogleMap,
   Marker
 } from "react-google-maps";
+import { h337 } from "heatmap.js";
+
 
 const CustomSkinMap = withScriptjs(
   withGoogleMap(props => (
@@ -82,13 +84,24 @@ const CustomSkinMap = withScriptjs(
 );
 
 function Maps({ ...props }) {
-  return (
-    <CustomSkinMap
+  var heatmap = h337.create({
+    container: document.getElementById('heatmap')
+  });
+
+  heatmap.setData({
+    max: 5,
+    data: [{ x: 10, y: 15, value: 5 }, { x: 5, y: 10, value: 10 }]
+  });
+
+  return (<div id="heatmap">
+    {/* <CustomSkinMap
       googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={<div style={{ height: `100vh` }} />}
       mapElement={<div style={{ height: `100%` }} />}
-    />
+    /> */}
+  </div>
+    
   );
 }
 

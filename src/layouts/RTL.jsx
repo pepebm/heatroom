@@ -43,7 +43,7 @@ class RTL extends React.Component {
       image: image,
       color: "blue",
       hasImage: true,
-      fixedClasses: "dropdown ",
+      fixedClasses: "dropdown",
       mobileOpen: false
     };
   }
@@ -54,7 +54,7 @@ class RTL extends React.Component {
     this.setState({ color: color });
   };
   handleFixedClick = () => {
-    if (this.state.fixedClasses === "dropdown") {
+    if (this.state.fixedClasses === "dropdown show") {
       this.setState({ fixedClasses: "dropdown show" });
     } else {
       this.setState({ fixedClasses: "dropdown" });
@@ -94,7 +94,7 @@ class RTL extends React.Component {
       <div className={classes.wrapper}>
         <Sidebar
           routes={routes}
-          logoText={"الإبداعية تيم"}
+          logoText={"Hola"}
           logo={logo}
           image={this.state.image}
           handleDrawerToggle={this.handleDrawerToggle}
@@ -110,7 +110,9 @@ class RTL extends React.Component {
             rtlActive
             {...rest}
           />
-          {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+          {/* On the /maps route we want the map to be on full screen - 
+          this is not possible if the content and container classes are present 
+          because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
               <div className={classes.container}>{switchRoutes}</div>
