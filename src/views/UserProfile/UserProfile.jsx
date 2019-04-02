@@ -144,9 +144,9 @@ function UserProfile(props) {
                 </GridItem>
               </GridContainer>
             </CardBody>
-            <CardFooter>
+            {/* <CardFooter>
               <Button color="primary">Update Profile</Button>
-            </CardFooter>
+            </CardFooter> */}
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>

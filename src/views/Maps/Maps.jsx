@@ -5,7 +5,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 
-import * as h337 from "heatmap.js";
+import Card from "components/Card/Card.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import CardBody from "components/Card/CardBody.jsx";
 
 import mapsStyle from "assets/jss/material-dashboard-react/views/mapsStyle.jsx";
 
@@ -20,48 +22,33 @@ class Maps extends React.Component {
     const config = {
       container: this.heatmapRef.current,
     };
-    const heatmap = h337.create(config);
-    this.generate(heatmap);
-  }
-
-  generate(heatmap) {
-    var width = this.heatmapRef.current.offsetWidth;
-    var height = this.heatmapRef.current.offsetHeight;
-    
-    var numSamples = 500;
-    // randomly generate extremas
-    var extremas = [Math.random() * numSamples, Math.random() * numSamples];
-    var max = Math.max.apply(Math, extremas);
-    var min = Math.min.apply(Math, extremas);
-    var data = [];
-
-    for (var i = 0; i < numSamples; i++) {
-      data.push({ 
-        x: Math.random() * width, 
-        y: Math.random() * height, 
-        value: (Math.random() * max - min) + min, 
-        // btw, we can set a radius on a point basis
-        radius: Math.random() * 80 
-      });
-    }
-    // set the generated dataset
-    heatmap.setData({
-      min: min,
-      max: max,
-      data: data
-    });
+    // const heatmap = h337.create(config);
+    // this.generate(heatmap);
   }
 
   render(){
     const { classes } = this.props;
 
     return (
-      <div className={classes.heatmapWrapper}>
-        <div 
-          className={classes.heatmapContainer} 
-          ref={this.heatmapRef}>
-        </div>
-      </div>
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>
+                User movement
+              </h4>
+            </CardHeader>
+            <CardBody>
+              <div className={classes.heatmapWrapper}>
+                <iframe
+                  className={classes.heatmapContainer}
+                  src="/heatmap/heatmap.html?_id=543&name=Apple">
+                </iframe>
+              </div>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
     );
   }
   
