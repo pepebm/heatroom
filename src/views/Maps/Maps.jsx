@@ -15,15 +15,6 @@ class Maps extends React.Component {
 
   constructor(props) {
     super(props);
-    this.heatmapRef = React.createRef();
-  }
-
-  componentDidMount(){
-    const config = {
-      container: this.heatmapRef.current,
-    };
-    // const heatmap = h337.create(config);
-    // this.generate(heatmap);
   }
 
   render(){
@@ -42,6 +33,7 @@ class Maps extends React.Component {
               <div className={classes.heatmapWrapper}>
                 <iframe
                   className={classes.heatmapContainer}
+                  name="heatmap"
                   src="/heatmap/heatmap.html?_id=543&name=Apple">
                 </iframe>
               </div>
