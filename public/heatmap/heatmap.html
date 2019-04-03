@@ -60,7 +60,7 @@
       fetch('https://heatroom-api.azurewebsites.net/api/heatmap')
         .then(res => res.json())
         .then(json => {
-          var hits = json[0].hits,
+          var hits = json[json.length - 1].hits,
               data = [],
               min = Math.min(...hits.flat()),
               max = Math.max(...hits.flat())
@@ -70,8 +70,8 @@
             data.push({
               x: (element[0] * width) >> 0,
               y: (element[1] * height) >> 0,
-              value: 100,
-              radius: 10
+              value: 10,
+              radius: 50
             })
           );
 
