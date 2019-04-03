@@ -43,55 +43,29 @@
       const loc = window.location.toString().split('?')[1],
          params = JSON.parse(
           '{"' + decodeURI(loc.replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}'
-         ),
-         hits = params.data.split(',')
-        ;
+         );
 
       // create a heatmap instance
       const heatmap = h337.create({
         container: document.getElementById('heatmapContainer'),
-        maxOpacity: .6,
-        radius: 50,
-        blur: .90,
+        opacity: .5,
+        radius: 20,
+        blur: .9
       });
 
       // boundaries for data generation
       const width = (+window.getComputedStyle(document.body).width.replace(/px/, '')),
-            height = (+window.getComputedStyle(document.body).height.replace(/px/, ''))
-        ;
-
-      var data = [],
-          min = Math.min(...hits),
-          max = Math.max(...hits)
-        ;
-      var count = 0;
-      while (count <= hits.length){
-        const x = data[count];
-        count += 1;
-        const y = data[count];
-        data.push({
-          x: (x * width) >> 0,
-          y: (y * height) >> 0,
-          value: 10,
-          radius: 50
-        });
-      }
-
-      // heatmap.setData({
-      //   min: min,
-      //   max: max,
-      //   data: data
-      // });
+            height = (+window.getComputedStyle(document.body).height.replace(/px/, ''));
       // get data
       fetch('https://heatroom-api.azurewebsites.net/api/heatmap')
         .then(res => res.json())
         .then(json => {
-          var hits = json.data[0].hits,
+          var hits = json[json.length - 1].hits,
               data = [],
               min = Math.min(...hits.flat()),
               max = Math.max(...hits.flat())
             ;
-          console.log(json)
+          
           hits.forEach(element =>
             data.push({
               x: (element[0] * width) >> 0,
