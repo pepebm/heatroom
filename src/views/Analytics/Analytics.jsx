@@ -66,11 +66,11 @@ class Analytics extends React.Component {
   componentDidMount(){
     axios.get('https://heatroom-api.azurewebsites.net/api/timeseries')
       .then(res => {
-        res.data.map(d => {
+        res.data.data.map(d => {
           d.outtime = moment(d.outtime).format("MMM DD / HH:mm");
           return d;
         });
-        this.setState(byPropKey('timeseriesData', res.data));
+        this.setState(byPropKey('timeseriesData', res.data.data));
         this.setState(byPropKey('isLoading', false));
       }).catch(err => {
         this.setState(byPropKey('error', err));
