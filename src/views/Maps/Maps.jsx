@@ -51,8 +51,7 @@ class Maps extends React.Component {
   componentDidMount() {
     axios.get('https://heatroom-api.azurewebsites.net/api/heatmap')
       .then(res => {
-        res.data.data[0].outtime = moment(res.data.data.outtime)
-                                    .format("MMM DD YY / HH:mm");
+        res.data.data[0].outtime = moment.utc(res.data.data[0].outtime).format("LLL");
         this.setState(byPropKey('data', res.data.data[0]));
         this.setState(byPropKey('isLoading', false));
       })

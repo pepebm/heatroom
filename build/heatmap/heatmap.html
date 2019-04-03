@@ -38,7 +38,7 @@
 
   <script>
     /*   ---  MAIN  ---   */
-    window.onload = function () {
+    window.onload = () => {
       // Retrieve params
       const loc = window.location.toString().split('?')[1],
          params = JSON.parse(
@@ -111,9 +111,8 @@
         .catch(err => console.log(err));
     };
 
-    window.onresize = (event) => {
-      window.location.reload();
-    }
+    window.onresize = event => window.location.reload();
+    
   </script>
 </body>
 </html>

@@ -91,19 +91,18 @@
               min = Math.min(...hits.flat()),
               max = Math.max(...hits.flat())
             ;
-          console.log(json)
           hits.forEach(element =>
             data.push({
               x: (element[0] * width) >> 0,
               y: (element[1] * height) >> 0,
-              value: 10,
+              value: 5,
               radius: 50
             })
           );
 
           heatmap.setData({
-            min: min,
-            max: max,
+            min: 0,
+            max: 10,
             data: data
           });
           return;

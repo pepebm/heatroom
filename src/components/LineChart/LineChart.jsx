@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Label, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip
+  LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip
 } from 'recharts';
 
 
@@ -24,13 +24,10 @@ class LineChartComp extends PureComponent {
       data: this.props.data,
       ...initialState
     };
-    console.log(this.state.data);
   }
 
   render() {
-    const {
-      data, barIndex, left, right, refAreaLeft, refAreaRight, top, bottom, top2, bottom2,
-    } = this.state;
+    const { data, left, right } = this.state;
 
     return (
       <div className="highlight-bar-charts" style={{ userSelect: 'none' }}>
