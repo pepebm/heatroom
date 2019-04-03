@@ -1,4 +1,7 @@
 import React from "react";
+import axios from "axios";
+import moment from "moment";
+import LoadingScreen from "react-loading-screen";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
@@ -10,6 +13,9 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 
 import LineChartComp from "../../components/LineChart/LineChart";
 
+import logo from "../../assets/img/reactlogo.png";
+
+const byPropKey = (propertyName, value) => () => ({ [propertyName]: value });
 const style = {
   typo: {
     paddingLeft: "25%",
@@ -46,38 +52,65 @@ const style = {
     textDecoration: "none"
   }
 };
-function Analytics(props) {
-  const { classes } = props;
-  return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Clients tracked time series
-            </h4>
-          </CardHeader>
-          <CardBody>
-            <LineChartComp />
-          </CardBody>
-        </Card>
-      </GridItem>
+class Analytics extends React.Component {
 
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Revenue
+  constructor(props) {
+    super(props);
+    this.state = {
+      timeseriesData: [],
+      isLoading: true,
+      error: null
+    };
+  }
+
+  componentDidMount(){
+    axios.get('https://heatroom-api.azurewebsites.net/api/timeseries')
+      .then(res => {
+        res.data.map(d => {
+          d.outtime = moment(d.outtime).format("MMM Do YY");
+          return d;
+        });
+        this.setState(byPropKey('timeseriesData', res.data));
+        this.setState(byPropKey('isLoading', false));
+      }).catch(err => {
+        this.setState(byPropKey('error', err));
+        console.log(err);
+      });
+  }
+
+  render(){
+    const { classes } = this.props;
+
+    return (
+      <LoadingScreen
+        loading={this.state.isLoading}
+        bgColor='#f1f1f1'
+        spinnerColor='#9ee5f8'
+        textColor='#676767'
+        logoSrc={logo}
+        text="Loading data from the cloud"
+      >
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card>
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>
+                  Clients tracked time series
             </h4>
-          </CardHeader>
-          <CardBody>
-            <LineChartComp />
-          </CardBody>
-        </Card>
-      </GridItem>
-      
-    </GridContainer>
-  );
+              </CardHeader>
+              <CardBody>
+                {
+                  this.state.timeseriesData.length > 0 ?
+                    <LineChartComp data={this.state.timeseriesData} /> : null
+                }
+              </CardBody>
+            </Card>
+          </GridItem>
+
+        </GridContainer>
+      </LoadingScreen>
+    );
+  }
 }
 
 export default withStyles(style)(Analytics);

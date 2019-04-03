@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
-  <title>Legend Example (DOM Legends) | heatmap.js</title>
   <style>
     body,
-    html,
-    h2 {
+    html {
       margin: 0;
       padding: 0;
       height: 100%;
     }
 
-    body {
-      font-family: sans-serif;
-    }
-
     body * {
       font-weight: 200;
+      background-image: url("floorplan.png");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;  
     }
 
     #heatmapContainerWrapper {
@@ -32,37 +29,10 @@
       width: 100%;
       height: 100%;
     }
-
-    #min {
-      float: left;
-    }
-
-    #max {
-      float: right;
-    }
-
-    h1 {
-      position: absolute;
-      background: black;
-      color: white;
-      padding: 10px;
-      font-weight: 200;
-    }
-
-    #all-examples-info {
-      position: absolute;
-      background: white;
-      font-size: 16px;
-      padding: 20px;
-      top: 100px;
-      width: 350px;
-      line-height: 150%;
-      border: 1px solid rgba(0, 0, 0, .2);
-    }
   </style>
 </head>
-
 <body>
+  <!-- HTML ELEMENTS -->
   <div id="heatmapContainerWrapper">
     <div id="heatmapContainer"></div>
   </div>
@@ -71,15 +41,12 @@
   <script>
     /*   ---  MAIN  ---   */
     window.onload = function () {
-      // helper function
-      function $(id) {
-        return document.getElementById(id);
-      };
       // Retrieve params
       const loc = window.location.toString().split('?')[1],
          params = JSON.parse(
           '{"' + decodeURI(loc.replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}'
          );
+
       // create a heatmap instance
       const heatmap = h337.create({
         container: document.getElementById('heatmapContainer'),
@@ -87,38 +54,38 @@
         radius: 10,
         blur: .75
       });
+
       // boundaries for data generation
       const width = (+window.getComputedStyle(document.body).width.replace(/px/, '')),
-           height = (+window.getComputedStyle(document.body).height.replace(/px/, ''));
-      // generate 1000 datapoints
-      var generate = function () {
-        // randomly generate extremas
-        var extremas = [(Math.random() * 1000) >> 0, (Math.random() * 1000) >> 0];
-        var max = Math.max.apply(Math, extremas);
-        var min = Math.min.apply(Math, extremas);
-        var t = [];
-        for (var i = 0; i < 1000; i++) {
-          var x = (Math.random() * width) >> 0;
-          var y = (Math.random() * height) >> 0;
-          var c = ((Math.random() * max - min) >> 0) + min;
-          // btw, we can set a radius on a point basis
-          var r = (Math.random() * 80) >> 0;
-          // add to dataset
-          t.push({ x: x, y: y, value: c, radius: r });
-        }
-        // set the generated dataset
-        heatmap.setData({
-          min: min,
-          max: max,
-          data: t
-        });
-      };
-      // initial generate
-      generate();
-      // whenever a user clicks on the ContainerWrapper the data will be regenerated -> new max & min
-      document.getElementById('heatmapContainerWrapper').onclick = function () { generate(); };
+            height = (+window.getComputedStyle(document.body).height.replace(/px/, ''));
+      // get data
+      fetch('https://heatroom-api.azurewebsites.net/api/heatmap')
+        .then(res => res.json())
+        .then(json => {
+          var hits = json[0].hits,
+              data = [],
+              min = Math.min(...hits.flat()),
+              max = Math.max(...hits.flat())
+            ;
+          
+          hits.forEach(element =>
+            data.push({
+              x: (element[0] * width) >> 0,
+              y: (element[1] * height) >> 0,
+              value: 100,
+              radius: 10
+            })
+          );
+
+          heatmap.setData({
+            min: 0,
+            max: 1,
+            data: data
+          });
+          return;
+        })
+        .catch(err => console.log(err));
     };
   </script>
 </body>
-
 </html>
